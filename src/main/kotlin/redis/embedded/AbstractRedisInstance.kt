@@ -79,7 +79,7 @@ abstract class AbstractRedisInstance(
         }
     }
 
-    protected abstract fun redisReadyPattern(): String
+    abstract fun redisReadyPattern(): String
 
     private fun createRedisProcessBuilder(): ProcessBuilder {
         val executable = File(args[0])
