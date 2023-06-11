@@ -12,6 +12,9 @@ repositories {
 }
 
 dependencies {
+    implementation("com.google.guava:guava:32.0.1-jre")
+    implementation("commons-io:commons-io:2.13.0")
+
     testImplementation(kotlin("test"))
 }
 
