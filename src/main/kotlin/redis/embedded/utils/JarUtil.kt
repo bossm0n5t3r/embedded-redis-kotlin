@@ -9,7 +9,7 @@ import java.nio.file.Files
 object JarUtil {
     @VisibleForTesting
     fun extractFileFromJar(path: String): File {
-        val tmpDir = Files.createTempDirectory(path).toFile()
+        val tmpDir = Files.createTempDirectory(null).toFile()
         tmpDir.deleteOnExit()
 
         val file = File(tmpDir, path)
