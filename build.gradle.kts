@@ -16,6 +16,7 @@ dependencies {
     implementation("commons-io:commons-io:2.13.0")
 
     testImplementation(kotlin("test"))
+    testImplementation("redis.clients:jedis:5.0.0-beta1")
 }
 
 tasks.test {
