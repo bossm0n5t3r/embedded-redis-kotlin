@@ -1,19 +1,18 @@
 package redis.embedded.utils
 
-import com.google.common.annotations.VisibleForTesting
-import com.google.common.io.Resources
-import org.apache.commons.io.FileUtils
+import redis.embedded.utils.ResourceUtil.getResource
 import java.io.File
 import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.StandardCopyOption
 
 object JarUtil {
-    @VisibleForTesting
-    fun extractFileFromJar(path: String): File {
+    private fun extractFileFromJar(path: String): File {
         val tmpDir = Files.createTempDirectory(null).toFile()
         tmpDir.deleteOnExit()
 
         val file = File(tmpDir, path)
-        FileUtils.copyURLToFile(Resources.getResource(path), file)
+        Files.copy(Path.of(getResource(path).toURI()), file.toPath(), StandardCopyOption.REPLACE_EXISTING)
         file.deleteOnExit()
 
         return file

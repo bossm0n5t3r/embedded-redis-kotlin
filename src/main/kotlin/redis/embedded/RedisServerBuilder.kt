@@ -1,13 +1,14 @@
 package redis.embedded
 
-import com.google.common.io.Files
 import redis.embedded.RedisServer.Companion.DEFAULT_REDIS_PORT
 import redis.embedded.exceptions.RedisBuildingException
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.net.InetSocketAddress
 import java.nio.charset.StandardCharsets
 
+@Suppress("TooManyFunctions")
 class RedisServerBuilder {
     private val lineSeparator = System.getProperty("line.separator")
     private val confFilename = "embedded-redis-server"
@@ -94,12 +95,17 @@ class RedisServerBuilder {
         }
     }
 
+    @Suppress("TooGenericExceptionCaught")
     @Throws(IOException::class)
     private fun resolveConfAndExec() {
         if (redisConf == null && redisConfigBuilder != null) {
             val redisConfigFile = File.createTempFile(resolveConfigName(), ".conf")
             redisConfigFile.deleteOnExit()
-            Files.asCharSink(redisConfigFile, StandardCharsets.UTF_8).write(redisConfigBuilder.toString())
+            FileOutputStream(redisConfigFile).use {
+                it.writer(StandardCharsets.UTF_8)
+                    .append(redisConfigBuilder.toString())
+                    .flush()
+            }
             redisConf = redisConfigFile.absolutePath
         }
         executable = try {
