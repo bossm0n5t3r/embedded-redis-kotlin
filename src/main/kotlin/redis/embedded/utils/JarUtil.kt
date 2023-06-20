@@ -1,13 +1,11 @@
 package redis.embedded.utils
 
-import com.google.common.annotations.VisibleForTesting
 import com.google.common.io.Resources
 import org.apache.commons.io.FileUtils
 import java.io.File
 import java.nio.file.Files
 
 object JarUtil {
-    @VisibleForTesting
     fun extractFileFromJar(path: String): File {
         val tmpDir = Files.createTempDirectory(null).toFile()
         tmpDir.deleteOnExit()

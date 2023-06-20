@@ -1,6 +1,5 @@
 package redis.embedded
 
-import com.google.common.annotations.VisibleForTesting
 import redis.embedded.enums.Architecture
 import redis.embedded.enums.OS
 import redis.embedded.utils.JarUtil
@@ -29,7 +28,6 @@ class RedisExecProvider {
         executables[OsArchitecture.MAC_OS_X_ARM64] = "redis-server-$REDIS_VERSION-darwin-arm64"
     }
 
-    @VisibleForTesting
     fun override(os: OS, executable: String): RedisExecProvider {
         for (arch in Architecture.values()) {
             override(os, arch, executable)
@@ -37,7 +35,6 @@ class RedisExecProvider {
         return this
     }
 
-    @VisibleForTesting
     fun override(os: OS, arch: Architecture, executable: String): RedisExecProvider {
         executables[OsArchitecture(os, arch)] = executable
         return this
