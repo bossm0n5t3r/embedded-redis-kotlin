@@ -1,6 +1,5 @@
 package redis.embedded
 
-import org.apache.commons.io.IOUtils
 import redis.embedded.exceptions.EmbeddedRedisException
 import java.io.BufferedReader
 import java.io.File
@@ -9,8 +8,8 @@ import java.io.InputStreamReader
 import java.lang.RuntimeException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import java.util.function.Consumer
 
+@Suppress("TooManyFunctions")
 abstract class AbstractRedisInstance(
     private val port: Int,
     private val tlsPort: Int = 0,
@@ -75,7 +74,9 @@ abstract class AbstractRedisInstance(
                 }
             } while (outputLine?.matches(redisReadyPattern().toRegex()) == false)
         } finally {
-            IOUtils.closeQuietly(reader, null as? Consumer<IOException>?)
+            try {
+                reader.close()
+            } catch (_: IOException) {}
         }
     }
 
@@ -122,7 +123,9 @@ abstract class AbstractRedisInstance(
             try {
                 readLines()
             } finally {
-                IOUtils.closeQuietly(reader, null as? Consumer<IOException>?)
+                try {
+                    reader.close()
+                } catch (_: IOException) {}
             }
         }
 
