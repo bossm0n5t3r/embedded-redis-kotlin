@@ -1,6 +1,5 @@
 package redis.embedded
 
-import com.google.common.io.Resources
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -16,6 +15,7 @@ import redis.embedded.enums.Architecture
 import redis.embedded.enums.OS
 import redis.embedded.exceptions.EmbeddedRedisException
 import redis.embedded.exceptions.RedisBuildingException
+import redis.embedded.utils.ResourceUtil.getResource
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -110,27 +110,27 @@ class RedisServerTest {
             .override(
                 OS.UNIX,
                 Architecture.X86,
-                Resources.getResource("redis-server-" + RedisExecProvider.REDIS_VERSION + "-linux-386").file,
+                getResource("redis-server-" + RedisExecProvider.REDIS_VERSION + "-linux-386").file,
             )
             .override(
                 OS.UNIX,
                 Architecture.X86_64,
-                Resources.getResource("redis-server-" + RedisExecProvider.REDIS_VERSION + "-linux-amd64").file,
+                getResource("redis-server-" + RedisExecProvider.REDIS_VERSION + "-linux-amd64").file,
             )
             .override(
                 OS.UNIX,
                 Architecture.ARM64,
-                Resources.getResource("redis-server-" + RedisExecProvider.REDIS_VERSION + "-linux-arm64").file,
+                getResource("redis-server-" + RedisExecProvider.REDIS_VERSION + "-linux-arm64").file,
             )
             .override(
                 OS.MAC_OS_X,
                 Architecture.X86_64,
-                Resources.getResource("redis-server-" + RedisExecProvider.REDIS_VERSION + "-darwin-amd64").file,
+                getResource("redis-server-" + RedisExecProvider.REDIS_VERSION + "-darwin-amd64").file,
             )
             .override(
                 OS.MAC_OS_X,
                 Architecture.ARM64,
-                Resources.getResource("redis-server-" + RedisExecProvider.REDIS_VERSION + "-darwin-arm64").file,
+                getResource("redis-server-" + RedisExecProvider.REDIS_VERSION + "-darwin-arm64").file,
             )
         redisServer = RedisServerBuilder()
             .redisExecProvider(customProvider)
