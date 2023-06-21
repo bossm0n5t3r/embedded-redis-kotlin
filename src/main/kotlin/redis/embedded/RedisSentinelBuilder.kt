@@ -1,5 +1,7 @@
 package redis.embedded
 
+import redis.embedded.constants.RedisConstants.DEFAULT_MASTER_PORT
+import redis.embedded.constants.RedisConstants.DEFAULT_PORT
 import redis.embedded.exceptions.RedisBuildingException
 import java.io.File
 import java.io.FileOutputStream
@@ -17,8 +19,6 @@ class RedisSentinelBuilder {
         private const val PARALLEL_SYNCS_LINE = "sentinel parallel-syncs %s %d"
         private const val PORT_LINE = "port %d"
 
-        private const val DEFAULT_PORT = 26379
-        private const val DEFAULT_MASTER_PORT = 6379
         private const val DEFAULT_DOWN_AFTER_MILLI_SECONDS = 60000L
         private const val DEFAULT_FAILOVER_TIMEOUT = 180000L
     }
