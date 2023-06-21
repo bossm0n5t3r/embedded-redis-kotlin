@@ -109,7 +109,7 @@ class RedisSentinelBuilder {
         }
     }
 
-    fun reset() {
+    fun reset() = apply {
         redisConfigBuilder = null
         sentinelConf = null
     }

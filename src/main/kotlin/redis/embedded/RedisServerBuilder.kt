@@ -73,7 +73,7 @@ class RedisServerBuilder {
         return RedisServer(args, port, tlsPort)
     }
 
-    fun reset() {
+    fun reset() = apply {
         executable = null
         redisConfigBuilder = null
         slaveOf = null
