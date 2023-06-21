@@ -23,54 +23,47 @@ class RedisServerBuilder {
 
     private var redisConfigBuilder: StringBuilder? = null
 
-    fun redisExecProvider(redisExecProvider: RedisExecProvider): RedisServerBuilder {
+    fun redisExecProvider(redisExecProvider: RedisExecProvider) = apply {
         this.redisExecProvider = redisExecProvider
-        return this
     }
 
-    fun bind(bind: String): RedisServerBuilder {
+    fun bind(bind: String) = apply {
         this.bind = bind
-        return this
     }
 
-    fun port(port: Int): RedisServerBuilder {
+    fun port(port: Int) = apply {
         this.port = port
-        return this
     }
 
-    fun tlsPort(tlsPort: Int): RedisServerBuilder {
+    fun tlsPort(tlsPort: Int) = apply {
         this.tlsPort = tlsPort
-        return this
     }
 
-    fun slaveOf(hostname: String?, port: Int): RedisServerBuilder {
+    fun slaveOf(hostname: String?, port: Int) = apply {
         slaveOf = InetSocketAddress(hostname, port)
-        return this
     }
 
-    fun slaveOf(slaveOf: InetSocketAddress?): RedisServerBuilder {
+    fun slaveOf(slaveOf: InetSocketAddress?) = apply {
         this.slaveOf = slaveOf
-        return this
     }
 
-    fun configFile(redisConf: String?): RedisServerBuilder {
+    fun configFile(redisConf: String?) = apply {
         if (redisConfigBuilder != null) {
             throw RedisBuildingException("Redis configuration is already partially build using setting(String) method!")
         }
         this.redisConf = redisConf
-        return this
     }
 
-    fun setting(configLine: String?): RedisServerBuilder {
+    fun setting(configLine: String?) = apply {
         if (redisConf != null) {
             throw RedisBuildingException("Redis configuration is already set using redis conf file!")
         }
         if (redisConfigBuilder == null) {
             redisConfigBuilder = StringBuilder()
         }
-        redisConfigBuilder?.append(configLine)
-        redisConfigBuilder?.append(lineSeparator)
-        return this
+        redisConfigBuilder
+            ?.append(configLine)
+            ?.append(lineSeparator)
     }
 
     fun build(): RedisServer {
