@@ -94,7 +94,7 @@ class RedisSentinelBuilder {
     fun build(): RedisSentinel {
         tryResolveConfAndExec()
         val args = buildCommandArgs()
-        return RedisSentinel(args, port)
+        return RedisSentinel(port, args)
     }
 
     @Suppress("TooGenericExceptionCaught")
