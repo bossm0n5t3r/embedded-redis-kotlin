@@ -1,27 +1,15 @@
 package redis.embedded
 
-import redis.embedded.constants.RedisConstants.REDIS_VERSION
 import redis.embedded.enums.Architecture
 import redis.embedded.enums.OS
 import redis.embedded.utils.JarUtil
 import java.io.File
 import java.io.IOException
 
-class RedisExecProvider {
-    companion object {
-        fun defaultProvider(): RedisExecProvider {
-            return RedisExecProvider()
-        }
-    }
-    private val executables = mutableMapOf<OsArchitecture, String>()
+abstract class RedisExecProvider {
+    protected val executables = mutableMapOf<OsArchitecture, String>()
 
-    init {
-        initExecutables()
-    }
-
-    private fun initExecutables() {
-        executables[OsArchitecture.MAC_OS_X_ARM64] = "redis-server-$REDIS_VERSION-darwin-arm64"
-    }
+    abstract fun initExecutables()
 
     fun override(os: OS, executable: String): RedisExecProvider {
         for (arch in Architecture.values()) {
