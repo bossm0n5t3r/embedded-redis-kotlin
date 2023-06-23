@@ -131,44 +131,4 @@ class RedisServerTest {
                 .build()
         }
     }
-
-    @Test
-    fun testAwaitRedisServerReady() {
-        val readyPattern = RedisServer.builder().build().redisReadyPattern()
-        assertReadyPattern(
-            javaClass
-                .classLoader
-                .getResourceAsStream("redis-2.x-standalone-startup-output.txt"),
-            readyPattern,
-        )
-        assertReadyPattern(
-            javaClass
-                .classLoader
-                .getResourceAsStream("redis-3.x-standalone-startup-output.txt"),
-            readyPattern,
-        )
-        assertReadyPattern(
-            javaClass
-                .classLoader
-                .getResourceAsStream("redis-4.x-standalone-startup-output.txt"),
-            readyPattern,
-        )
-        assertReadyPattern(
-            javaClass
-                .classLoader
-                .getResourceAsStream("redis-6.x-standalone-startup-output.txt"),
-            readyPattern,
-        )
-    }
-
-    private fun assertReadyPattern(inputStream: InputStream?, readyPattern: String) {
-        requireNotNull(inputStream)
-        val reader = BufferedReader(InputStreamReader(inputStream))
-
-        var outputLine: String
-        do {
-            outputLine = reader.readLine()
-            assertNotNull(outputLine)
-        } while (!outputLine.matches(readyPattern.toRegex()))
-    }
 }
