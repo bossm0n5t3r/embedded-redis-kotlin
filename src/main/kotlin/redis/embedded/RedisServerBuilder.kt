@@ -14,7 +14,7 @@ class RedisServerBuilder {
     private val confFilename = "embedded-redis-server"
 
     private var executable: File? = null
-    private var redisExecProvider: RedisExecProvider = RedisExecProvider.defaultProvider()
+    private var redisExecProvider: RedisExecProvider = RedisServerExecProvider.defaultProvider()
     private var bind = "127.0.0.1"
     private var port = DEFAULT_REDIS_PORT
     private var tlsPort = 0

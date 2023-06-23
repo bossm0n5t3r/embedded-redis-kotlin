@@ -2,7 +2,6 @@ package redis.embedded
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -18,9 +17,6 @@ import redis.embedded.enums.OS
 import redis.embedded.exceptions.EmbeddedRedisException
 import redis.embedded.exceptions.RedisBuildingException
 import redis.embedded.utils.ResourceUtil.getResource
-import java.io.BufferedReader
-import java.io.InputStream
-import java.io.InputStreamReader
 
 class RedisServerTest {
     private lateinit var redisServer: RedisServer
@@ -108,7 +104,7 @@ class RedisServerTest {
 
     @Test
     fun shouldOverrideDefaultExecutable() {
-        val customProvider = RedisExecProvider.defaultProvider()
+        val customProvider = RedisServerExecProvider.defaultProvider()
             .override(
                 OS.MAC_OS_X,
                 Architecture.ARM64,
@@ -121,7 +117,7 @@ class RedisServerTest {
 
     @Test
     fun shouldFailWhenBadExecutableGiven() {
-        val buggyProvider = RedisExecProvider.defaultProvider()
+        val buggyProvider = RedisServerExecProvider.defaultProvider()
             .override(OS.UNIX, "some")
             .override(OS.MAC_OS_X, "some")
 
