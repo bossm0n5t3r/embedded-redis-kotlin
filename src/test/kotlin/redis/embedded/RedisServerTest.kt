@@ -11,6 +11,7 @@ import org.junit.jupiter.api.assertThrows
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.JedisPool
 import redis.embedded.constants.RedisConstants.LOCALHOST
+import redis.embedded.constants.RedisConstants.REDIS_VERSION
 import redis.embedded.constants.RedisConstants.Server.DEFAULT_REDIS_PORT
 import redis.embedded.enums.Architecture
 import redis.embedded.enums.OS
@@ -109,29 +110,9 @@ class RedisServerTest {
     fun shouldOverrideDefaultExecutable() {
         val customProvider = RedisExecProvider.defaultProvider()
             .override(
-                OS.UNIX,
-                Architecture.X86,
-                getResource("redis-server-" + RedisExecProvider.REDIS_VERSION + "-linux-386").file,
-            )
-            .override(
-                OS.UNIX,
-                Architecture.X86_64,
-                getResource("redis-server-" + RedisExecProvider.REDIS_VERSION + "-linux-amd64").file,
-            )
-            .override(
-                OS.UNIX,
-                Architecture.ARM64,
-                getResource("redis-server-" + RedisExecProvider.REDIS_VERSION + "-linux-arm64").file,
-            )
-            .override(
-                OS.MAC_OS_X,
-                Architecture.X86_64,
-                getResource("redis-server-" + RedisExecProvider.REDIS_VERSION + "-darwin-amd64").file,
-            )
-            .override(
                 OS.MAC_OS_X,
                 Architecture.ARM64,
-                getResource("redis-server-" + RedisExecProvider.REDIS_VERSION + "-darwin-arm64").file,
+                getResource("redis-server-$REDIS_VERSION-darwin-arm64").file,
             )
         redisServer = RedisServerBuilder()
             .redisExecProvider(customProvider)

@@ -1,6 +1,8 @@
 package redis.embedded.constants
 
 object RedisConstants {
+    const val REDIS_VERSION = "7.0.11"
+
     const val LOCALHOST = "localhost"
 
     object Server {
