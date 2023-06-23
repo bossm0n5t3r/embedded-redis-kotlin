@@ -1,5 +1,6 @@
 package redis.embedded
 
+import redis.embedded.constants.RedisConstants.Server.DEFAULT_REDIS_PORT
 import java.io.File
 
 class RedisServer : AbstractRedisInstance {
@@ -38,7 +39,7 @@ class RedisServer : AbstractRedisInstance {
 
     companion object {
         private const val REDIS_READY_PATTERN = ".*(R|r)eady to accept connections.*"
-        const val DEFAULT_REDIS_PORT = 6379
+
         fun builder(): RedisServerBuilder {
             return RedisServerBuilder()
         }

@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Timeout
 import org.junit.jupiter.api.assertThrows
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.JedisPool
-import redis.embedded.RedisServer.Companion.DEFAULT_REDIS_PORT
 import redis.embedded.constants.RedisConstants.LOCALHOST
+import redis.embedded.constants.RedisConstants.Server.DEFAULT_REDIS_PORT
 import redis.embedded.enums.Architecture
 import redis.embedded.enums.OS
 import redis.embedded.exceptions.EmbeddedRedisException
@@ -27,7 +27,7 @@ class RedisServerTest {
     @Test
     @Timeout(1500L)
     fun testSimpleRun() {
-        redisServer = RedisServer(6379)
+        redisServer = RedisServer(DEFAULT_REDIS_PORT)
         redisServer.start()
         Thread.sleep(1000L)
         redisServer.stop()
@@ -37,7 +37,7 @@ class RedisServerTest {
     fun shouldNotAllowMultipleRunsWithoutStop() {
         assertThrows<EmbeddedRedisException> {
             try {
-                redisServer = RedisServer(6379)
+                redisServer = RedisServer(DEFAULT_REDIS_PORT)
                 redisServer.start()
                 redisServer.start()
             } finally {
@@ -48,7 +48,7 @@ class RedisServerTest {
 
     @Test
     fun shouldAllowSubsequentRuns() {
-        redisServer = RedisServer(6379)
+        redisServer = RedisServer(DEFAULT_REDIS_PORT)
 
         redisServer.start()
         redisServer.stop()
@@ -69,7 +69,7 @@ class RedisServerTest {
         var jedis: Jedis? = null
 
         try {
-            pool = JedisPool(LOCALHOST, 6379)
+            pool = JedisPool(LOCALHOST, DEFAULT_REDIS_PORT)
             jedis = pool.resource
             jedis.mset("abc", "1", "def", "2")
 

@@ -1,6 +1,6 @@
 package redis.embedded
 
-import redis.embedded.RedisServer.Companion.DEFAULT_REDIS_PORT
+import redis.embedded.constants.RedisConstants.Server.DEFAULT_REDIS_PORT
 import redis.embedded.exceptions.RedisBuildingException
 import java.io.File
 import java.io.FileOutputStream

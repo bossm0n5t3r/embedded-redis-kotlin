@@ -1,7 +1,7 @@
 package redis.embedded
 
-import redis.embedded.constants.RedisConstants.DEFAULT_MASTER_PORT
-import redis.embedded.constants.RedisConstants.DEFAULT_PORT
+import redis.embedded.constants.RedisConstants.Sentinel.DEFAULT_MASTER_PORT
+import redis.embedded.constants.RedisConstants.Sentinel.DEFAULT_PORT
 import redis.embedded.exceptions.RedisBuildingException
 import java.io.File
 import java.io.FileOutputStream

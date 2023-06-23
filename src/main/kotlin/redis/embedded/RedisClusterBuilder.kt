@@ -1,8 +1,8 @@
 package redis.embedded
 
-import redis.embedded.constants.RedisConstants.DEFAULT_MASTER_PORT
-import redis.embedded.constants.RedisConstants.DEFAULT_PORT
 import redis.embedded.constants.RedisConstants.LOCALHOST
+import redis.embedded.constants.RedisConstants.Sentinel.DEFAULT_MASTER_PORT
+import redis.embedded.constants.RedisConstants.Sentinel.DEFAULT_PORT
 import redis.embedded.portProviders.EphemeralPortProvider
 import redis.embedded.portProviders.PredefinedPortProvider
 import redis.embedded.portProviders.SequencePortProvider
