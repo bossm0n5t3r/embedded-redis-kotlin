@@ -12,5 +12,6 @@ object RedisConstants {
     object Sentinel {
         const val DEFAULT_PORT = 26379
         const val DEFAULT_MASTER_PORT = 6379
+        const val DEFAULT_MASTER_NAME = "embedded-master-name"
     }
 }
