@@ -1,5 +1,6 @@
 package redis.embedded
 
+import redis.embedded.constants.RedisConstants.Sentinel.DEFAULT_MASTER_NAME
 import redis.embedded.constants.RedisConstants.Sentinel.DEFAULT_MASTER_PORT
 import redis.embedded.constants.RedisConstants.Sentinel.DEFAULT_PORT
 import redis.embedded.exceptions.RedisBuildingException
@@ -24,11 +25,11 @@ class RedisSentinelBuilder {
     }
 
     private lateinit var executable: File
-    private var redisExecProvider = RedisExecProvider.defaultProvider()
+    private var redisExecProvider = RedisSentinelExecProvider.defaultProvider()
     private var bind = "127.0.0.1"
     private var port = DEFAULT_PORT
     private var masterPort = DEFAULT_MASTER_PORT
-    private var masterName = "mymaster"
+    private var masterName = DEFAULT_MASTER_NAME
     private var downAfterMilliseconds = DEFAULT_DOWN_AFTER_MILLI_SECONDS
     private var failoverTimeout = DEFAULT_FAILOVER_TIMEOUT
     private var parallelSyncs = 1
