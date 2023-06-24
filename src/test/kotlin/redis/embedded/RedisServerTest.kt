@@ -17,12 +17,13 @@ import redis.embedded.enums.OS
 import redis.embedded.exceptions.EmbeddedRedisException
 import redis.embedded.exceptions.RedisBuildingException
 import redis.embedded.utils.ResourceUtil.getResource
+import java.util.concurrent.TimeUnit
 
 class RedisServerTest {
     private lateinit var redisServer: RedisServer
 
     @Test
-    @Timeout(1500L)
+    @Timeout(value = 1500L, unit = TimeUnit.MILLISECONDS)
     fun testSimpleRun() {
         redisServer = RedisServer(DEFAULT_REDIS_PORT)
         redisServer.start()
