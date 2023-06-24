@@ -14,6 +14,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     testImplementation("redis.clients:jedis:5.0.0-beta1")
+    testImplementation("io.mockk:mockk:1.13.5")
 }
 
 tasks.test {
