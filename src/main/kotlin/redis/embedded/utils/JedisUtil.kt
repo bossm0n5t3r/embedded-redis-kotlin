@@ -15,7 +15,7 @@ object JedisUtil {
         return portsToJedisHosts(ports)
     }
 
-    private fun portsToJedisHosts(ports: Collection<Int>): Set<String> {
+    fun portsToJedisHosts(ports: Collection<Int>): Set<String> {
         return ports.map { "$LOCALHOST:$it" }.toSet()
     }
 }
