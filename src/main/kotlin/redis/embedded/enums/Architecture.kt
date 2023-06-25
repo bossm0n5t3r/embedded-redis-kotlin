@@ -1,8 +1,6 @@
 package redis.embedded.enums
 
 enum class Architecture {
-    X86,
-    X86_64,
+    AMD64,
     ARM64,
-    UNKNOWN,
 }
