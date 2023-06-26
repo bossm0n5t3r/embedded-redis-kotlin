@@ -8,11 +8,9 @@ data class OsArchitecture(
     val architecture: Architecture,
 ) {
     companion object {
-        val UNIX_X86 = OsArchitecture(OS.UNIX, Architecture.X86)
-        val UNIX_X86_64 = OsArchitecture(OS.UNIX, Architecture.X86_64)
+        val UNIX_AMD64 = OsArchitecture(OS.UNIX, Architecture.AMD64)
         val UNIX_ARM64 = OsArchitecture(OS.UNIX, Architecture.ARM64)
 
-        val MAC_OS_X_X86_64 = OsArchitecture(OS.MAC_OS_X, Architecture.X86_64)
         val MAC_OS_X_ARM64 = OsArchitecture(OS.MAC_OS_X, Architecture.ARM64)
 
         fun detect() = OsArchitecture(
