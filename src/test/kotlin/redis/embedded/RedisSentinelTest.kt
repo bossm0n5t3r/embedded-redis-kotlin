@@ -14,15 +14,18 @@ import java.util.concurrent.TimeUnit
 
 class RedisSentinelTest {
     private lateinit var sentinel: RedisSentinel
-    private lateinit var sentinelPortAndMasterPort: Pair<Int, Int>
+    private var sentinelPort = -1
+    private var masterPort = -1
 
     @BeforeEach
     fun setup() {
-        sentinelPortAndMasterPort = generateRandomPort() to generateRandomPort()
+        sentinelPort = generateRandomPort()
+        masterPort = generateRandomPort()
+
         sentinel = RedisSentinel
             .builder()
-            .port(sentinelPortAndMasterPort.first)
-            .masterPort(sentinelPortAndMasterPort.second)
+            .port(sentinelPort)
+            .masterPort(masterPort)
             .build()
     }
 
@@ -49,7 +52,7 @@ class RedisSentinelTest {
     @Test
     fun testSimpleOperationsAfterRun() {
         // given
-        val redisServer = RedisServer(sentinelPortAndMasterPort.second)
+        val redisServer = RedisServer(masterPort)
         redisServer.start()
         sentinel.start()
         TimeUnit.SECONDS.sleep(1)
@@ -58,7 +61,7 @@ class RedisSentinelTest {
         var pool: JedisSentinelPool? = null
         var jedis: Jedis? = null
         try {
-            pool = JedisSentinelPool(DEFAULT_MASTER_NAME, setOf("$LOCALHOST:${sentinelPortAndMasterPort.first}"))
+            pool = JedisSentinelPool(DEFAULT_MASTER_NAME, setOf("$LOCALHOST:$sentinelPort"))
             jedis = pool.resource
             jedis.mset("abc", "1", "def", "2")
 
