@@ -5,6 +5,8 @@ Redis embedded server for JVM integration testing
 ## Notes
 
 - This repository is implemented following repositories as Kotlin for studying.
+  - https://github.com/signalapp/embedded-redis
+  - https://github.com/simbahebinbo/embedded-redis
 
 ## TO-DO
 
