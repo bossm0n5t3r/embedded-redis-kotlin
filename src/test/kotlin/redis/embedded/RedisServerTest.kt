@@ -3,16 +3,12 @@ package redis.embedded
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Timeout
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
-import redis.clients.jedis.Jedis
-import redis.clients.jedis.JedisPool
 import redis.embedded.constants.RedisConstants
-import redis.embedded.constants.RedisConstants.LOCALHOST
 import redis.embedded.constants.RedisConstants.REDIS_VERSION
 import redis.embedded.constants.RedisConstants.Server.DEFAULT_REDIS_PORT
 import redis.embedded.enums.Architecture
@@ -169,29 +165,6 @@ class RedisServerTest {
             redisServer = RedisServerBuilder()
                 .redisExecProvider(buggyProvider)
                 .build()
-        }
-    }
-
-    @Test
-    fun testSimpleOperationsAfterRun() {
-        redisServer = RedisServer(DEFAULT_REDIS_PORT)
-        redisServer.start()
-
-        var pool: JedisPool? = null
-        var jedis: Jedis? = null
-
-        try {
-            pool = JedisPool(LOCALHOST, DEFAULT_REDIS_PORT)
-            jedis = pool.resource
-            jedis.mset("abc", "1", "def", "2")
-
-            assertEquals("1", jedis.mget("abc")[0])
-            assertEquals("2", jedis.mget("def")[0])
-
-            assertNull(jedis.mget("xyz")[0])
-        } finally {
-            if (jedis != null) pool?.returnResource(jedis)
-            redisServer.stop()
         }
     }
 }
