@@ -1,5 +1,6 @@
 package redis.embedded
 
+import redis.embedded.constants.RedisConstants.Server.DEFAULT_REDIS_HOST
 import redis.embedded.constants.RedisConstants.Server.DEFAULT_REDIS_PORT
 import redis.embedded.exceptions.RedisBuildingException
 import java.io.File
@@ -15,7 +16,7 @@ class RedisServerBuilder {
 
     private var executable: File? = null
     private var redisExecProvider: RedisExecProvider = RedisServerExecProvider.defaultProvider()
-    private var bind = "127.0.0.1"
+    private var bind = DEFAULT_REDIS_HOST
     private var port = DEFAULT_REDIS_PORT
     private var tlsPort = 0
     private var slaveOf: InetSocketAddress? = null

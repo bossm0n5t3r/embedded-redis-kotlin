@@ -2,7 +2,7 @@ package redis.embedded.constants
 
 object RedisConstants {
     const val REDIS_VERSION = "7.0.11"
-    const val LOCALHOST = "localhost"
+    const val LOCALHOST = "localhost" // 0.0.0.0?
 
     object Separator {
         const val HYPHEN = "-"
@@ -48,11 +48,13 @@ object RedisConstants {
 
     object Server {
         const val REDIS_SERVER = "redis-server"
+        const val DEFAULT_REDIS_HOST = "127.0.0.1" // 0.0.0.0?
         const val DEFAULT_REDIS_PORT = 6379
     }
 
     object Sentinel {
         const val REDIS_SENTINEL = "redis-sentinel"
+        const val DEFAULT_HOST = "127.0.0.1" // 0.0.0.0?
         const val DEFAULT_PORT = 26379
         const val DEFAULT_MASTER_PORT = 6379
         const val DEFAULT_MASTER_NAME = "embedded-master-name"

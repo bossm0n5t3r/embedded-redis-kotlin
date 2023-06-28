@@ -1,5 +1,6 @@
 package redis.embedded
 
+import redis.embedded.constants.RedisConstants.Sentinel.DEFAULT_HOST
 import redis.embedded.constants.RedisConstants.Sentinel.DEFAULT_MASTER_NAME
 import redis.embedded.constants.RedisConstants.Sentinel.DEFAULT_MASTER_PORT
 import redis.embedded.constants.RedisConstants.Sentinel.DEFAULT_PORT
@@ -26,7 +27,7 @@ class RedisSentinelBuilder {
 
     private lateinit var executable: File
     private var redisExecProvider = RedisSentinelExecProvider.defaultProvider()
-    private var bind = "127.0.0.1"
+    private var bind = DEFAULT_HOST
     private var port = DEFAULT_PORT
     private var masterPort = DEFAULT_MASTER_PORT
     private var masterName = DEFAULT_MASTER_NAME

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.JedisPool
-import redis.embedded.constants.RedisConstants.LOCALHOST
+import redis.embedded.constants.RedisConstants.Server.DEFAULT_REDIS_HOST
 import redis.embedded.utils.generateRandomPort
 
 class RedisServerWithJedisTest : AbstractJedisTest() {
@@ -19,7 +19,7 @@ class RedisServerWithJedisTest : AbstractJedisTest() {
 
     @BeforeEach
     fun setup() {
-        host = LOCALHOST
+        host = DEFAULT_REDIS_HOST
         port = generateRandomPort()
     }
 
