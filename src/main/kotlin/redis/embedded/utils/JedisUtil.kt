@@ -2,6 +2,7 @@ package redis.embedded.utils
 
 import redis.embedded.Redis
 import redis.embedded.RedisCluster
+import redis.embedded.RedisSentinel
 import redis.embedded.constants.RedisConstants.LOCALHOST
 
 object JedisUtil {
@@ -12,6 +13,11 @@ object JedisUtil {
 
     fun sentinelHosts(cluster: RedisCluster): Set<String> {
         val ports = cluster.sentinelPorts()
+        return portsToJedisHosts(ports)
+    }
+
+    fun sentinelJedisHosts(redisSentinel: RedisSentinel): Set<String> {
+        val ports = redisSentinel.ports()
         return portsToJedisHosts(ports)
     }
 
