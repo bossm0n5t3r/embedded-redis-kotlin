@@ -36,7 +36,7 @@ class RedisServerWithJedisTest : AbstractJedisTest() {
 
     @Test
     fun testOperate() {
-        redisServer = RedisServer(port)
+        redisServer = RedisServer.builder().port(port).build()
         redisServer.start()
 
         jedisPool = JedisPool(host, port)
@@ -50,7 +50,7 @@ class RedisServerWithJedisTest : AbstractJedisTest() {
 
     @Test
     fun testOperateThenStandaloneDown() {
-        redisServer = RedisServer(port)
+        redisServer = RedisServer.builder().port(port).build()
         redisServer.start()
 
         jedisPool = JedisPool(host, port)
@@ -70,7 +70,7 @@ class RedisServerWithJedisTest : AbstractJedisTest() {
 
     @Test
     fun testOperateThenStandaloneDownUp() {
-        redisServer = RedisServer(port)
+        redisServer = RedisServer.builder().port(port).build()
         redisServer.start()
 
         jedisPool = JedisPool(host, port)

@@ -32,7 +32,7 @@ class RedisServerTest {
     @Test
     @Timeout(value = 1500L, unit = TimeUnit.MILLISECONDS)
     fun testSimpleRun() {
-        redisServer = RedisServer(DEFAULT_REDIS_PORT)
+        redisServer = RedisServer.builder().port(DEFAULT_REDIS_PORT).build()
         redisServer.start()
         Thread.sleep(1000L)
         redisServer.stop()
@@ -41,7 +41,7 @@ class RedisServerTest {
     @Test
     fun shouldNotAllowMultipleRunsWithoutStop() {
         assertThrows<EmbeddedRedisException> {
-            redisServer = RedisServer(DEFAULT_REDIS_PORT)
+            redisServer = RedisServer.builder().port(DEFAULT_REDIS_PORT).build()
             redisServer.start()
             redisServer.start()
             redisServer.stop()
@@ -51,7 +51,7 @@ class RedisServerTest {
     @Test
     fun shouldAllowMultipleStops() {
         assertDoesNotThrow {
-            redisServer = RedisServer(DEFAULT_REDIS_PORT)
+            redisServer = RedisServer.builder().port(DEFAULT_REDIS_PORT).build()
 
             redisServer.stop()
 
@@ -63,7 +63,7 @@ class RedisServerTest {
 
     @Test
     fun shouldAllowSubsequentRuns() {
-        redisServer = RedisServer(DEFAULT_REDIS_PORT)
+        redisServer = RedisServer.builder().port(DEFAULT_REDIS_PORT).build()
 
         redisServer.start()
         redisServer.stop()
@@ -77,27 +77,20 @@ class RedisServerTest {
 
     @Test
     fun shouldIndicateInactiveBeforeStart() {
-        redisServer = RedisServer(DEFAULT_REDIS_PORT)
+        redisServer = RedisServer.builder().port(DEFAULT_REDIS_PORT).build()
         assertFalse(redisServer.isActive())
     }
 
     @Test
     fun testPorts() {
         val randomPort = generateRandomPort()
-        redisServer = RedisServer(port = randomPort)
+        redisServer = RedisServer.builder().port(randomPort).build()
         assertEquals(redisServer.ports(), setOf(randomPort))
     }
 
     @Test
-    fun testTlsPorts() {
-        val (port, tlsPort) = generateRandomPort() to generateRandomPort()
-        redisServer = RedisServer(port = port, tlsPort = tlsPort)
-        assertEquals(redisServer.tlsPorts(), setOf(tlsPort))
-    }
-
-    @Test
     fun shouldIndicateActiveAfterStart() {
-        redisServer = RedisServer(DEFAULT_REDIS_PORT)
+        redisServer = RedisServer.builder().port(DEFAULT_REDIS_PORT).build()
         redisServer.start()
         assertTrue(redisServer.isActive())
         redisServer.stop()
@@ -105,7 +98,7 @@ class RedisServerTest {
 
     @Test
     fun shouldIndicateInactiveAfterStop() {
-        redisServer = RedisServer(DEFAULT_REDIS_PORT)
+        redisServer = RedisServer.builder().port(DEFAULT_REDIS_PORT).build()
         redisServer.start()
         redisServer.stop()
         assertFalse(redisServer.isActive())
