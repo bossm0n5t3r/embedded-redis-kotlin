@@ -18,10 +18,10 @@ class RedisServerBuilder {
     private var redisExecProvider: RedisExecProvider = RedisServerExecProvider.defaultProvider()
     private var bind = DEFAULT_REDIS_HOST
     private var port = DEFAULT_REDIS_PORT
-    private var tlsPort = 0
-    private var slaveOf: InetSocketAddress? = null
-    private var redisConf: String? = null
 
+    private var clusterEnable = false
+    private var replicaOf: InetSocketAddress? = null
+    private var redisConf: String? = null
     private var redisConfigBuilder: StringBuilder? = null
 
     fun redisExecProvider(redisExecProvider: RedisExecProvider) = apply {
@@ -36,16 +36,16 @@ class RedisServerBuilder {
         this.port = port
     }
 
-    fun tlsPort(tlsPort: Int) = apply {
-        this.tlsPort = tlsPort
+    fun clusterEnable(enable: Boolean) = apply {
+        this.clusterEnable = enable
     }
 
-    fun slaveOf(hostname: String?, port: Int) = apply {
-        slaveOf = InetSocketAddress(hostname, port)
+    fun replicaOf(port: Int) = apply {
+        replicaOf = InetSocketAddress(DEFAULT_REDIS_HOST, port)
     }
 
-    fun slaveOf(slaveOf: InetSocketAddress?) = apply {
-        this.slaveOf = slaveOf
+    fun replicaOf(slaveOf: InetSocketAddress?) = apply {
+        this.replicaOf = slaveOf
     }
 
     fun configFile(redisConf: String?) = apply {
@@ -55,7 +55,7 @@ class RedisServerBuilder {
         this.redisConf = redisConf
     }
 
-    fun setting(configLine: String?) = apply {
+    private fun setting(configLine: String?) = apply {
         if (redisConf != null) {
             throw RedisBuildingException("Redis configuration is already set using redis conf file!")
         }
@@ -71,14 +71,15 @@ class RedisServerBuilder {
         setting("bind $bind")
         tryResolveConfAndExec()
         val args = buildCommandArgs()
-        return RedisServer(args, port, tlsPort)
+        return RedisServer(args, port)
     }
 
     fun reset() = apply {
-        executable = null
-        redisConfigBuilder = null
-        slaveOf = null
-        redisConf = null
+        this.executable = null
+        this.redisConfigBuilder = null
+        this.replicaOf = null
+        this.redisConf = null
+        this.clusterEnable = false
     }
 
     private fun tryResolveConfAndExec() {
@@ -123,16 +124,25 @@ class RedisServerBuilder {
         args.add("--port")
         args.add(port.toString())
 
-        if (tlsPort > 0) {
-            args.add("--tls-port")
-            args.add(tlsPort.toString())
+        if (replicaOf != null) {
+            args.add("--replicaof")
+            args.add(replicaOf!!.hostName)
+            args.add(replicaOf!!.port.toString())
         }
 
-        if (slaveOf != null) {
-            args.add("--slaveOf")
-            args.add(slaveOf!!.hostName)
-            args.add(slaveOf!!.port.toString())
+        if (clusterEnable) {
+            args.add("--cluster-enabled")
+            args.add("yes")
         }
+
+        args.add("--loglevel")
+        args.add("debug")
+
+        args.add("--daemonize")
+        args.add("no")
+
+        args.add("--protected-mode")
+        args.add("no")
 
         return args
     }
