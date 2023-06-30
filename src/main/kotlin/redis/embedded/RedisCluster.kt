@@ -55,12 +55,12 @@ class RedisCluster(
         return sentinels.toList()
     }
 
-    fun sentinelPorts(): List<Int> {
-        return sentinels.flatMap { it.ports() }
+    fun sentinelPorts(): Set<Int> {
+        return sentinels.flatMap { it.ports() }.toSet()
     }
 
-    private fun sentinelTlsPorts(): List<Int> {
-        return sentinels.flatMap { it.tlsPorts() }
+    private fun sentinelTlsPorts(): Set<Int> {
+        return sentinels.flatMap { it.tlsPorts() }.toSet()
     }
 
     fun servers(): List<Redis> {
