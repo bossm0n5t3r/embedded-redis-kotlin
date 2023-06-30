@@ -25,12 +25,12 @@ class RedisClusterBuilder {
         this.serverBuilder = serverBuilder
     }
 
-    fun sentinelPorts(ports: Collection<Int>) = apply {
+    fun sentinelPorts(ports: Set<Int>) = apply {
         sentinelPortProvider = PredefinedPortProvider(ports)
         sentinelCount = ports.size
     }
 
-    fun serverPorts(ports: Collection<Int>) = apply {
+    fun serverPorts(ports: Set<Int>) = apply {
         replicationGroupPortProvider = PredefinedPortProvider(ports)
     }
 

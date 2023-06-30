@@ -224,7 +224,7 @@ class RedisClusterTest {
     @Test
     fun testSimpleOperationsAfterRunWithTwoPredefinedSentinelsSingleMasterMultipleSlaves() {
         // given
-        val sentinelPorts = mutableListOf(26381, 26382)
+        val sentinelPorts = mutableSetOf(26381, 26382)
         val cluster = RedisCluster
             .builder()
             .withSentinelBuilder(sentinelBuilder)

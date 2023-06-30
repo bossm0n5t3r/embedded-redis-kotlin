@@ -13,7 +13,7 @@ class PredefinedPortProviderTest {
         val ports = (0 until portSize).map {
             Random.nextInt(0, UShort.MAX_VALUE.toInt() + 1)
         }
-        val portProvider = PredefinedPortProvider(ports)
+        val portProvider = PredefinedPortProvider(ports.toSet())
 
         val returnedPorts = (0 until portSize).map { portProvider.next() }
 
@@ -26,7 +26,7 @@ class PredefinedPortProviderTest {
         val ports = (0 until portSize).map {
             Random.nextInt(0, UShort.MAX_VALUE.toInt() + 1)
         }
-        val portProvider = PredefinedPortProvider(ports)
+        val portProvider = PredefinedPortProvider(ports.toSet())
 
         repeat(portSize) { portProvider.next() }
 
