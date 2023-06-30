@@ -8,7 +8,7 @@ import redis.embedded.constants.RedisConstants.REDIS_VERSION
 import redis.embedded.constants.RedisConstants.Sentinel.REDIS_SENTINEL
 import redis.embedded.constants.RedisConstants.Separator.HYPHEN
 
-class RedisSentinelExecProvider : RedisExecProvider() {
+class RedisSentinelExecProvider private constructor() : RedisExecProvider() {
     companion object {
         fun defaultProvider(): RedisExecProvider {
             return RedisSentinelExecProvider()
