@@ -28,7 +28,7 @@ class RedisSentinelBuilder {
     private lateinit var executable: File
     private var redisExecProvider = RedisSentinelExecProvider.defaultProvider()
     private var bind = DEFAULT_HOST
-    private var port = DEFAULT_PORT
+    private var sentinelPort = DEFAULT_PORT
     private var masterPort = DEFAULT_MASTER_PORT
     private var masterName = DEFAULT_MASTER_NAME
     private var downAfterMilliseconds = DEFAULT_DOWN_AFTER_MILLI_SECONDS
@@ -46,8 +46,8 @@ class RedisSentinelBuilder {
         this.bind = bind
     }
 
-    fun port(port: Int) = apply {
-        this.port = port
+    fun sentinelPort(sentinelPort: Int) = apply {
+        this.sentinelPort = sentinelPort
     }
 
     fun masterPort(masterPort: Int) = apply {
@@ -96,15 +96,16 @@ class RedisSentinelBuilder {
     fun build(): RedisSentinel {
         tryResolveConfAndExec()
         val args = buildCommandArgs()
-        return RedisSentinel(port, args)
+        return RedisSentinel(args, sentinelPort)
     }
 
     @Suppress("TooGenericExceptionCaught")
     private fun tryResolveConfAndExec() {
+        if (sentinelConf == null) {
+            resolveSentinelConf()
+        }
+
         executable = try {
-            if (sentinelConf == null) {
-                resolveSentinelConf()
-            }
             redisExecProvider.get()
         } catch (e: Exception) {
             throw RedisBuildingException("Could not build sentinel instance", e)
@@ -129,7 +130,7 @@ class RedisSentinelBuilder {
             addDefaultReplicationGroup()
         }
         setting("bind $bind")
-        setting(String.format(PORT_LINE, port))
+        setting(String.format(PORT_LINE, sentinelPort))
         val redisConfigFile = File.createTempFile(resolveConfigName(), ".conf")
         redisConfigFile.deleteOnExit()
         FileOutputStream(redisConfigFile).use {
@@ -140,7 +141,7 @@ class RedisSentinelBuilder {
         sentinelConf = redisConfigFile.absolutePath
     }
 
-    private fun resolveConfigName() = "${CONF_FILENAME}_$port"
+    private fun resolveConfigName() = "${CONF_FILENAME}_$sentinelPort"
 
     private fun buildCommandArgs(): List<String> {
         requireNotNull(sentinelConf)
@@ -148,9 +149,19 @@ class RedisSentinelBuilder {
         val args = mutableListOf<String>()
         args.add(executable.absolutePath)
         args.add(sentinelConf!!)
-        args.add("--sentinel")
+
         args.add("--port")
-        args.add(port.toString())
+        args.add(sentinelPort.toString())
+
+        args.add("--loglevel")
+        args.add("debug")
+
+        args.add("--daemonize")
+        args.add("no")
+
+        args.add("--protected-mode")
+        args.add("no")
+
         return args
     }
 }
