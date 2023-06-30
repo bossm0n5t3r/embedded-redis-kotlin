@@ -11,23 +11,15 @@ import java.util.concurrent.Executors
 
 @Suppress("TooManyFunctions")
 abstract class AbstractRedisInstance(
-    private val port: Int,
-    private val tlsPort: Int = 0,
-) : Redis {
-    protected var args = mutableListOf<String>()
-
+    private val args: List<String> = emptyList(),
+) {
     @Volatile
-    private var active = false
+    protected var active = false
     private lateinit var redisProcess: Process
     private lateinit var executor: ExecutorService
 
-    override fun isActive(): Boolean {
-        return active
-    }
-
-    @Synchronized
     @Throws(EmbeddedRedisException::class)
-    override fun start() {
+    fun doStart() {
         if (active) {
             throw EmbeddedRedisException("This redis server instance is already running...")
         }
@@ -43,7 +35,7 @@ abstract class AbstractRedisInstance(
     }
 
     private fun installExitHook() {
-        Runtime.getRuntime().addShutdownHook(Thread({ stop() }, "RedisInstanceCleaner"))
+        Runtime.getRuntime().addShutdownHook(Thread({ doStop() }, "RedisInstanceCleaner"))
     }
 
     private fun logErrors() {
@@ -80,7 +72,7 @@ abstract class AbstractRedisInstance(
         }
     }
 
-    abstract fun redisReadyPattern(): String
+    protected abstract fun redisReadyPattern(): String
 
     private fun createRedisProcessBuilder(): ProcessBuilder {
         val executable = File(args[0])
@@ -91,7 +83,7 @@ abstract class AbstractRedisInstance(
 
     @Synchronized
     @Throws(EmbeddedRedisException::class)
-    override fun stop() {
+    fun doStop() {
         if (active) {
             if (!executor.isShutdown) {
                 executor.shutdown()
@@ -108,14 +100,6 @@ abstract class AbstractRedisInstance(
         } catch (e: InterruptedException) {
             throw EmbeddedRedisException("Failed to stop redis instance", e)
         }
-    }
-
-    override fun ports(): Set<Int> {
-        return if (port > 0) setOf(port) else emptySet()
-    }
-
-    override fun tlsPorts(): Set<Int> {
-        return if (tlsPort > 0) setOf(tlsPort) else emptySet()
     }
 
     private class PrintReaderRunnable(private val reader: BufferedReader) : Runnable {
