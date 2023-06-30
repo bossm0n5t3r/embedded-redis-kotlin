@@ -8,9 +8,9 @@ import org.junit.jupiter.api.assertThrows
 import redis.clients.jedis.JedisSentinelPool
 import redis.embedded.constants.RedisConstants.Server.DEFAULT_REDIS_HOST
 import redis.embedded.utils.JedisUtil
-import redis.embedded.utils.generateRandomPort
 import redis.embedded.utils.generateRandomString
 import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 class RedisSentinelWithJedisTest : AbstractJedisTest() {
     private lateinit var redisSentinel: RedisSentinel
@@ -33,13 +33,13 @@ class RedisSentinelWithJedisTest : AbstractJedisTest() {
     @BeforeEach
     fun setup() {
         masterHost = DEFAULT_REDIS_HOST
-        masterPort = generateRandomPort()
+        masterPort = Random.nextInt(10001, 11000)
 
         slaveHost = DEFAULT_REDIS_HOST
-        slavePort = generateRandomPort()
+        slavePort = Random.nextInt(11001, 12000)
 
         sentinelHost = DEFAULT_REDIS_HOST
-        sentinelPort = generateRandomPort()
+        sentinelPort = Random.nextInt(12001, 13000)
 
         masterName = generateRandomString(50, 100)
     }
