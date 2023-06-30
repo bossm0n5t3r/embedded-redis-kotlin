@@ -46,6 +46,8 @@ class RedisSentinelWithJedisTest : AbstractJedisTest() {
 
     @AfterEach
     fun cleanUp() {
+        TimeUnit.SECONDS.sleep(5)
+
         if (this::sentinelPool.isInitialized) {
             sentinelPool.close()
             sentinelPool.destroy()
@@ -62,6 +64,8 @@ class RedisSentinelWithJedisTest : AbstractJedisTest() {
         if (this::redisSentinel.isInitialized) {
             redisSentinel.stop()
         }
+
+        TimeUnit.SECONDS.sleep(5)
     }
 
     @Test
