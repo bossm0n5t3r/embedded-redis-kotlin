@@ -48,6 +48,7 @@ class RedisSentinelWithJedisTest : AbstractJedisTest() {
     fun cleanUp() {
         if (this::sentinelPool.isInitialized) {
             sentinelPool.close()
+            sentinelPool.destroy()
         }
 
         if (this::slaveServer.isInitialized) {
