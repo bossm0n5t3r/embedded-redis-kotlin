@@ -2,7 +2,7 @@ package redis.embedded
 
 import redis.embedded.exceptions.EmbeddedRedisException
 
-interface Redis {
+interface IRedisServer {
     fun isActive(): Boolean
 
     @Throws(EmbeddedRedisException::class)
@@ -12,5 +12,4 @@ interface Redis {
     fun stop()
 
     fun ports(): Set<Int>
-    fun tlsPorts(): Set<Int>
 }
