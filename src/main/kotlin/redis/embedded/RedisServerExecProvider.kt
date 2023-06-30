@@ -8,7 +8,7 @@ import redis.embedded.constants.RedisConstants.REDIS_VERSION
 import redis.embedded.constants.RedisConstants.Separator.HYPHEN
 import redis.embedded.constants.RedisConstants.Server.REDIS_SERVER
 
-class RedisServerExecProvider : RedisExecProvider() {
+class RedisServerExecProvider private constructor() : RedisExecProvider() {
     companion object {
         fun defaultProvider(): RedisExecProvider {
             return RedisServerExecProvider()
