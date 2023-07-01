@@ -59,4 +59,8 @@ object RedisConstants {
         const val DEFAULT_MASTER_PORT = 6379
         const val DEFAULT_MASTER_NAME = "embedded-master-name"
     }
+
+    object Cli {
+        const val REDIS_CLI = "redis-cli"
+    }
 }

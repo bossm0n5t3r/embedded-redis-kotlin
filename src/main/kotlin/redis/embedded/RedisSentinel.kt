@@ -1,13 +1,17 @@
 package redis.embedded
 
-class RedisSentinel(port: Int, args: List<String>) : AbstractRedisInstance(port) {
-    init {
-        this.args = args.toMutableList()
-    }
+import redis.embedded.constants.RedisConstants.Server.DEFAULT_REDIS_PORT
 
-    override fun redisReadyPattern(): String {
-        return REDIS_READY_PATTERN
-    }
+class RedisSentinel(
+    args: List<String>,
+    sentinelPort: Int,
+) : AbstractRedisServerInstance(
+    args = args,
+    sentinelPort = sentinelPort,
+    masterPort = DEFAULT_REDIS_PORT,
+) {
+    override fun redisServerReadyPattern(): String = REDIS_READY_PATTERN
+    override fun isActive(): Boolean = this.active
 
     companion object {
         private const val REDIS_READY_PATTERN = ".*Sentinel (runid|ID) is.*"

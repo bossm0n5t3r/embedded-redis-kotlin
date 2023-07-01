@@ -18,7 +18,7 @@ class RedisSentinelTest {
 
         sentinel = RedisSentinel
             .builder()
-            .port(sentinelPort)
+            .sentinelPort(sentinelPort)
             .masterPort(masterPort)
             .build()
     }

@@ -15,7 +15,7 @@ dependencies {
     implementation("io.github.oshai:kotlin-logging-jvm:4.0.0")
     implementation("org.slf4j:slf4j-simple:2.0.7")
     testImplementation(kotlin("test"))
-    testImplementation("redis.clients:jedis:5.0.0-beta1")
+    testImplementation("redis.clients:jedis:5.0.0-beta2")
     testImplementation("io.mockk:mockk:1.13.5")
 }
 

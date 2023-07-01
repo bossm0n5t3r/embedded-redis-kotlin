@@ -13,7 +13,6 @@ import redis.embedded.utils.generateRandomString
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
-@Disabled("local(O) != GitHub Actions(X); 무슨 원인인지 확인 필요")
 class RedisSentinelWithJedisTest : AbstractJedisTest() {
     private lateinit var redisSentinel: RedisSentinel
     private lateinit var sentinelPool: JedisSentinelPool
@@ -69,13 +68,13 @@ class RedisSentinelWithJedisTest : AbstractJedisTest() {
     @Test
     fun testOperate() {
         masterServer = RedisServer.builder().port(masterPort).build()
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build()
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build()
 
         masterServer.start()
         slaveServer.start()
 
         redisSentinel = RedisSentinel.builder()
-            .port(sentinelPort)
+            .sentinelPort(sentinelPort)
             .masterPort(masterPort)
             .masterName(masterName)
             .downAfterMilliseconds(1000L)
@@ -99,15 +98,16 @@ class RedisSentinelWithJedisTest : AbstractJedisTest() {
     }
 
     @Test
+    @Disabled("Failed only when running on Linux")
     fun testOperateThenMasterDown() {
         masterServer = RedisServer.builder().port(masterPort).build()
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build()
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build()
 
         masterServer.start()
         slaveServer.start()
 
         redisSentinel = RedisSentinel.builder()
-            .port(sentinelPort)
+            .sentinelPort(sentinelPort)
             .masterPort(masterPort)
             .masterName(masterName)
             .downAfterMilliseconds(1000L)
@@ -140,13 +140,13 @@ class RedisSentinelWithJedisTest : AbstractJedisTest() {
     @Test
     fun testOperateThenMasterDownUp() {
         masterServer = RedisServer.builder().port(masterPort).build()
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build()
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build()
 
         masterServer.start()
         slaveServer.start()
 
         redisSentinel = RedisSentinel.builder()
-            .port(sentinelPort)
+            .sentinelPort(sentinelPort)
             .masterPort(masterPort)
             .masterName(masterName)
             .downAfterMilliseconds(1000L)
@@ -182,13 +182,13 @@ class RedisSentinelWithJedisTest : AbstractJedisTest() {
     @Test
     fun testOperateThenSlaveDown() {
         masterServer = RedisServer.builder().port(masterPort).build()
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build()
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build()
 
         masterServer.start()
         slaveServer.start()
 
         redisSentinel = RedisSentinel.builder()
-            .port(sentinelPort)
+            .sentinelPort(sentinelPort)
             .masterPort(masterPort)
             .masterName(masterName)
             .downAfterMilliseconds(1000L)
@@ -221,13 +221,13 @@ class RedisSentinelWithJedisTest : AbstractJedisTest() {
     @Test
     fun testOperateThenSlaveDownUp() {
         masterServer = RedisServer.builder().port(masterPort).build()
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build()
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build()
 
         masterServer.start()
         slaveServer.start()
 
         redisSentinel = RedisSentinel.builder()
-            .port(sentinelPort)
+            .sentinelPort(sentinelPort)
             .masterPort(masterPort)
             .masterName(masterName)
             .downAfterMilliseconds(1000L)
@@ -263,13 +263,13 @@ class RedisSentinelWithJedisTest : AbstractJedisTest() {
     @Test
     fun testOperateThenMasterDownAndSlaveDown() {
         masterServer = RedisServer.builder().port(masterPort).build()
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build()
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build()
 
         masterServer.start()
         slaveServer.start()
 
         redisSentinel = RedisSentinel.builder()
-            .port(sentinelPort)
+            .sentinelPort(sentinelPort)
             .masterPort(masterPort)
             .masterName(masterName)
             .downAfterMilliseconds(1000L)
@@ -305,13 +305,13 @@ class RedisSentinelWithJedisTest : AbstractJedisTest() {
     @Test
     fun testOperateThenMasterDownUpAndSlaveDownUp() {
         masterServer = RedisServer.builder().port(masterPort).build()
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build()
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build()
 
         masterServer.start()
         slaveServer.start()
 
         redisSentinel = RedisSentinel.builder()
-            .port(sentinelPort)
+            .sentinelPort(sentinelPort)
             .masterPort(masterPort)
             .masterName(masterName)
             .downAfterMilliseconds(1000L)
@@ -351,15 +351,16 @@ class RedisSentinelWithJedisTest : AbstractJedisTest() {
     }
 
     @Test
+    @Disabled("Failed only when running on Linux")
     fun testOperateThenMasterDownAndSlaveDownUp() {
         masterServer = RedisServer.builder().port(masterPort).build()
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build()
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build()
 
         masterServer.start()
         slaveServer.start()
 
         redisSentinel = RedisSentinel.builder()
-            .port(sentinelPort)
+            .sentinelPort(sentinelPort)
             .masterPort(masterPort)
             .masterName(masterName)
             .downAfterMilliseconds(1000L)
@@ -409,13 +410,13 @@ class RedisSentinelWithJedisTest : AbstractJedisTest() {
     @Test
     fun testOperateThenMasterDownUpAndSlaveDown() {
         masterServer = RedisServer.builder().port(masterPort).build()
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build()
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build()
 
         masterServer.start()
         slaveServer.start()
 
         redisSentinel = RedisSentinel.builder()
-            .port(sentinelPort)
+            .sentinelPort(sentinelPort)
             .masterPort(masterPort)
             .masterName(masterName)
             .downAfterMilliseconds(1000L)
@@ -454,13 +455,13 @@ class RedisSentinelWithJedisTest : AbstractJedisTest() {
     @Test
     fun testOperateThenSentinelDown() {
         masterServer = RedisServer.builder().port(masterPort).build()
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build()
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build()
 
         masterServer.start()
         slaveServer.start()
 
         redisSentinel = RedisSentinel.builder()
-            .port(sentinelPort)
+            .sentinelPort(sentinelPort)
             .masterPort(masterPort)
             .masterName(masterName)
             .downAfterMilliseconds(1000L)
@@ -493,13 +494,13 @@ class RedisSentinelWithJedisTest : AbstractJedisTest() {
     @Test
     fun testOperateThenSentinelDownUp() {
         masterServer = RedisServer.builder().port(masterPort).build()
-        slaveServer = RedisServer.builder().port(slavePort).slaveOf(masterHost, masterPort).build()
+        slaveServer = RedisServer.builder().port(slavePort).replicaOf(masterPort).build()
 
         masterServer.start()
         slaveServer.start()
 
         redisSentinel = RedisSentinel.builder()
-            .port(sentinelPort)
+            .sentinelPort(sentinelPort)
             .masterPort(masterPort)
             .masterName(masterName)
             .downAfterMilliseconds(1000L)

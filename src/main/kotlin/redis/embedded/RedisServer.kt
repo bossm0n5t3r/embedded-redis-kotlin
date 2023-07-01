@@ -1,44 +1,34 @@
 package redis.embedded
 
-import redis.embedded.constants.RedisConstants.Server.DEFAULT_REDIS_PORT
 import java.io.File
 
-class RedisServer : AbstractRedisInstance {
-    @JvmOverloads
-    constructor(port: Int = DEFAULT_REDIS_PORT) : super(port) {
-        args = builder().port(port).build().args
-    }
-
-    constructor(port: Int, tlsPort: Int) : super(port, tlsPort) {
-        args = builder().port(port).tlsPort(tlsPort).build().args
-    }
-
-    constructor(executable: File, port: Int) : super(port) {
-        args = mutableListOf(
+class RedisServer : AbstractRedisServerInstance {
+    constructor(executable: File, port: Int) : super(
+        args = listOf(
             executable.absolutePath,
             "--port",
             port.toString(),
-        )
-    }
+        ),
+        port = port,
+    )
 
-    constructor(redisExecProvider: RedisExecProvider, port: Int) : super(port) {
-        args = mutableListOf(
+    constructor(redisExecProvider: RedisExecProvider, port: Int) : super(
+        args = listOf(
             redisExecProvider.get().absolutePath,
             "--port",
             port.toString(),
-        )
-    }
+        ),
+        port = port,
+    )
 
-    internal constructor(args: List<String>, port: Int, tlsPort: Int) : super(port, tlsPort) {
-        this.args = args.toMutableList()
-    }
+    constructor(args: List<String>, port: Int) : super(args, port)
 
-    override fun redisReadyPattern(): String {
-        return REDIS_READY_PATTERN
-    }
+    override fun redisServerReadyPattern(): String = REDIS_SERVER_READY_PATTERN
+
+    override fun isActive(): Boolean = this.active
 
     companion object {
-        private const val REDIS_READY_PATTERN = ".*(R|r)eady to accept connections.*"
+        private const val REDIS_SERVER_READY_PATTERN = ".*(R|r)eady to accept connections.*"
 
         fun builder(): RedisServerBuilder {
             return RedisServerBuilder()
